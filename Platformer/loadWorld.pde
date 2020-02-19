@@ -5,7 +5,16 @@ void loadWorld(){
     while(y<map.height){
       color c = map.get(x,y);
       if(c == black){
+        createSurface(x,y);
+      }
+      if(c == red){
         createGround(x,y);
+      }
+      if(c == orange){
+        createWall(x,y);
+      }
+      if(c == green || c == blue){
+        createCorner(x,y,c);
       }
       x++;
       if(x==map.width){
@@ -13,4 +22,5 @@ void loadWorld(){
         x=0;
       }
     }
+    
 }

@@ -1,33 +1,83 @@
-void updatePlayer(){
+/*void updatePlayer(){
   vx = 0;
   canJump = false;
   player.setRotation(0);
+
   playerC = player.getContacts();
-  if(playerC.size() > 0){
-    canJump = true;
+  previousAction = currentAction;
+  for(FContact a:playerC){
+    if(a.contains("surface")){
+      canJump = true;
+    }
   }
-  if(leftKey){
-    vx=-300;
-    currentAction = runLeft;
+  if(attackKey){
+    inAction = true;
+    if(direction == 1){
+    currentAction = attackR;
+    }
+    if(direction == 0){
+    currentAction = attackL; 
+    }
+    world1.add(attackSensor);
   }
-  if(rightKey){
-    vx=300;
-    currentAction = runRight;
+  if(inAction){
+    if(attackFrameCount < 36){
+      attackFrameCount++;
+    }else{
+      attackFrameCount = 0;
+      inAction = false;
+    }
   }
-  if(!rightKey && !leftKey){
-    currentAction = idle;
-    index = 0;
+  if(currentAction != attackL && currentAction != attackR){
+    world1.remove(attackSensor);
   }
-  player.setVelocity(vx,player.getVelocityY());
-  if(upKey && canJump){
-    player.addImpulse(0,-2000);
+  if(attackFrameCount != 0){
+    if(direction == 0){
+      attackSensor.setPosition(player.getX() - player.getWidth(),player.getY());
+    }else{
+      attackSensor.setPosition(player.getX() + player.getWidth(),player.getY());
+    }
   }
   
-  player.attachImage(currentAction[index]);
-  if(frameCount%10==0){
+  
+  if(leftKey && !inAction){
+    vx=-300;
+    currentAction = runLeft;
+    direction = 0;
+  }
+  if(rightKey && !inAction){
+    vx=300;
+    currentAction = runRight;
+    direction = 1;
+  }
+  if(!leftKey && !inAction && !rightKey){
+    currentAction = idle;
+  }
+  if(upKey && canJump && !inAction){
+    player.setVelocity(0,-400);
+  }
+  player.setVelocity(vx,player.getVelocityY());
+  if(spaceKey && bomb == null){
+    bomb = new FBomb();
+  }
+  if(bomb !=null){
+    bomb.tick();
+  }
+  if(frameCount%changeRate==0){
     index++;
-    if(index >= currentAction.length){
+    if(index > currentAction.length -1){
       index=0;
     }
   }
+  if(previousAction != currentAction){
+    index = 0;
+  }
+  player.attachImage(currentAction[index]);
+  
+}
+*/
+void updatePlayer(){
+  player.playerMove();
+  player.playerAttack();
+  player.playerCostume();
 }
